@@ -1,4 +1,5 @@
-// Страницу отдаёт тот же сервер, поэтому адрес сервера писать не нужно — просто "/pets"
+// Адрес сервера. Клиент и сервер — отдельные программы, поэтому адрес указываем полностью
+const API_URL = "http://localhost:3001";
 
 const petsList = document.getElementById("pets-list");
 const petForm = document.getElementById("pet-form");
@@ -17,7 +18,7 @@ const getEmoji = (species) => EMOJI[species.toLowerCase()] || "🐾";
 
 // GET /pets — загрузить питомцев и показать списком
 async function loadPets() {
-    const response = await fetch("/pets");
+    const response = await fetch(`${API_URL}/pets`);
     const pets = await response.json();
 
     petsList.innerHTML = ""; // очищаем старый список
@@ -93,7 +94,7 @@ petForm.onsubmit = async (event) => {
         birthDate: document.getElementById("birthDate").value,
     };
 
-    const url = editingId ? `/pets/${editingId}` : "/pets";
+    const url = editingId ? `${API_URL}/pets/${editingId}` : `${API_URL}/pets`;
     const method = editingId ? "PUT" : "POST";
 
     const response = await fetch(url, {
@@ -114,7 +115,7 @@ petForm.onsubmit = async (event) => {
 
 // DELETE /pets/:id — удалить питомца
 async function deletePet(id) {
-    await fetch(`/pets/${id}`, { method: "DELETE" });
+    await fetch(`${API_URL}/pets/${id}`, { method: "DELETE" });
     if (id === editingId) {
         resetForm(); // удалили того, кого редактировали
     }
@@ -123,7 +124,7 @@ async function deletePet(id) {
 
 // GET /vets — загрузить врачей (с фильтром, если он выбран)
 async function loadVets() {
-    let url = "/vets";
+    let url = `${API_URL}/vets`;
     if (vetFilter.value) {
         url += "?specialization=" + vetFilter.value;
     }

@@ -1,7 +1,7 @@
 {
   "name": "petpulse-mini",
   "version": "1.0.0",
-  "description": "Мини-версия PetPulse: сервер на Node.js + Express для учёта питомцев и записи к ветеринару",
+  "description": "Мини-версия PetPulse: сервер на Node.js + Express для учёта питомцев и каталога ветеринаров",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -10,6 +10,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "cors": "^2.8.6",
     "express": "^4.22.3"
   }
 }

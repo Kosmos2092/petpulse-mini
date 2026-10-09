@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const petsRouter = require("./routes/pets");
 const vetsRouter = require("./routes/vets");
 
@@ -7,8 +8,12 @@ const app = express();
 // чтобы тело POST/PUT-запроса в формате JSON превращалось в объект req.body
 app.use(express.json());
 
-// отдаём файлы клиента из папки public: http://localhost:3001 откроет public/index.html
-app.use(express.static("public"));
+// разрешаем запросы со страницы клиента: она открыта с другого адреса, и без этого браузер их заблокирует
+app.use(cors());
+
+app.get("/", (req, res) => {
+    res.json({ message: "PetPulse mini API работает" });
+});
 
 app.use("/pets", petsRouter);
 app.use("/vets", vetsRouter);
