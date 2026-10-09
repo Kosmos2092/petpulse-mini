@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { request } from "../api";
 
+// список специализаций — используется и в фильтре, и в панели администратора
+export const SPECIALIZATIONS = ["терапевт", "хирург", "дерматолог", "офтальмолог", "стоматолог"];
+
 // Каталог врачей с фильтром по специализации
 export default function VetsSection() {
     const [vets, setVets] = useState([]);
@@ -18,12 +21,13 @@ export default function VetsSection() {
                 <h2>Ветеринарные врачи</h2>
                 <select value={specialization} onChange={(e) => setSpecialization(e.target.value)}>
                     <option value="">Все специализации</option>
-                    <option value="терапевт">Терапевт</option>
-                    <option value="хирург">Хирург</option>
-                    <option value="дерматолог">Дерматолог</option>
+                    {SPECIALIZATIONS.map((item) => (
+                        <option key={item} value={item}>{item}</option>
+                    ))}
                 </select>
             </div>
             <ul>
+                {vets.length === 0 && <li className="empty">Врачей с такой специализацией нет</li>}
                 {vets.map((vet) => (
                     <li key={vet.id}>
                         <span className="emoji">🩺</span>

@@ -1,11 +1,8 @@
-const crypto = require("crypto");
 const usersRepository = require("../repositories/usersRepository");
 const tokensRepository = require("../repositories/tokensRepository");
+const hashPassword = require("../utils/hashPassword");
 
 const COOKIE_NAME = "token";
-
-// пароль храним не в открытом виде, а в виде хеша
-const hashPassword = (password) => crypto.createHash("sha256").update(password).digest("hex");
 
 // создаёт токен и кладёт его в cookie — после этого пользователь считается вошедшим
 const logIn = async (res, userId) => {
@@ -49,7 +46,7 @@ const login = async (req, res) => {
     }
 
     await logIn(res, user.id);
-    res.json({ id: user.id, login: user.login });
+    res.json({ id: user.id, login: user.login, role: user.role });
 };
 
 // POST /api/auth/logout — выход: удаляем токен из базы и cookie

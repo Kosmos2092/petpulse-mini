@@ -106,3 +106,30 @@ POST {{baseUrl}}/auth/logout
 
 ### После выхода питомцы недоступны (ожидаем 401)
 GET {{baseUrl}}/pets
+
+### ---------- Администратор ----------
+
+### Вход администратором
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "login": "admin",
+    "password": "admin123"
+}
+
+### Добавить врача (обычный пользователь получит 403)
+POST {{baseUrl}}/vets
+Content-Type: application/json
+
+{
+    "name": "Орлова Мария Ивановна",
+    "specialization": "офтальмолог",
+    "price": 2000
+}
+
+### Удалить врача
+DELETE {{baseUrl}}/vets/5
+
+### Выход
+POST {{baseUrl}}/auth/logout

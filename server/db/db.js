@@ -1,6 +1,7 @@
 const path = require("path");
 const sqlite3 = require("sqlite3");
 const { open } = require("sqlite");
+const hashPassword = require("../utils/hashPassword");
 
 let db;
 
@@ -18,7 +19,8 @@ const initDb = async () => {
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             login TEXT NOT NULL UNIQUE,
-            password TEXT NOT NULL
+            password TEXT NOT NULL,
+            role TEXT NOT NULL DEFAULT 'user' -- 'user' — владелец питомцев, 'admin' — администратор
         );
 
         CREATE TABLE IF NOT EXISTS tokens (
@@ -45,7 +47,7 @@ const initDb = async () => {
         CREATE TABLE IF NOT EXISTS appointments (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             petId INTEGER NOT NULL REFERENCES pets(id) ON DELETE CASCADE,
-            vetId INTEGER NOT NULL REFERENCES vets(id),
+            vetId INTEGER NOT NULL REFERENCES vets(id) ON DELETE CASCADE,
             date TEXT NOT NULL
         );
     `);
@@ -60,6 +62,12 @@ const initDb = async () => {
                 ('Смирнова Елена Викторовна', 'дерматолог', 1800),
                 ('Кузнецов Дмитрий Андреевич', 'терапевт', 1500)
         `);
+    }
+
+    // администратор тоже создаётся при первом запуске (логин и пароль — в README)
+    const admin = await db.get("SELECT id FROM users WHERE role = 'admin'");
+    if (!admin) {
+        await db.run("INSERT INTO users (login, password, role) VALUES (?, ?, 'admin')", "admin", hashPassword("admin123"));
     }
 };
 

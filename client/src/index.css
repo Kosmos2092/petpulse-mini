@@ -65,7 +65,7 @@ section {
 
 section.auth {
     max-width: 380px;
-    margin: 0 auto;
+    margin: 0 auto 20px;
 }
 
 h2 {

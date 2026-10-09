@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { request } from "./api";
 import AuthForm from "./components/AuthForm";
 import Dashboard from "./components/Dashboard";
+import AdminPanel from "./components/AdminPanel";
+import VetsSection from "./components/VetsSection";
 
 export default function App() {
-    const [user, setUser] = useState(null); // кто вошёл (null — никто)
+    const [user, setUser] = useState(null); // кто вошёл (null — гость)
     const [loading, setLoading] = useState(true);
 
     // при открытии страницы спрашиваем сервер: пользователь уже вошёл?
@@ -24,6 +26,21 @@ export default function App() {
         return null;
     }
 
+    // что показывать: гостю — вход и каталог врачей, админу — панель управления, владельцу — его кабинет
+    let content;
+    if (!user) {
+        content = (
+            <>
+                <AuthForm onLogin={setUser} />
+                <VetsSection />
+            </>
+        );
+    } else if (user.role === "admin") {
+        content = <AdminPanel />;
+    } else {
+        content = <Dashboard />;
+    }
+
     return (
         <>
             <header>
@@ -31,13 +48,14 @@ export default function App() {
                 <p>Учёт питомцев и запись к ветеринару</p>
                 {user && (
                     <div className="user-bar">
-                        👤 {user.login}
+                        {user.role === "admin" ? "🛡️" : "👤"} {user.login}
+                        {user.role === "admin" && " (администратор)"}
                         <button onClick={logout}>Выйти</button>
                     </div>
                 )}
             </header>
 
-            <main>{user ? <Dashboard /> : <AuthForm onLogin={setUser} />}</main>
+            <main>{content}</main>
         </>
     );
 }
