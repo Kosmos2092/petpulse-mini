@@ -1,7 +1,7 @@
 const express = require("express");
 const vetsController = require("../controllers/vetsController");
 
-// Здесь только адреса: какой запрос какой функцией контроллера обрабатывается
+// каталог врачей открыт всем, вход не нужен
 const vetsRouter = express.Router();
 
 vetsRouter.get("/", vetsController.getAll);

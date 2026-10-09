@@ -37,9 +37,19 @@ header p {
     opacity: 0.9;
 }
 
+.user-bar {
+    margin-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 6px 6px 6px 14px;
+    border-radius: 999px;
+}
+
 /* колонка по центру; отрицательный отступ сверху «наезжает» на шапку */
 main {
-    max-width: 640px;
+    max-width: 680px;
     margin: -40px auto 0;
     padding: 0 16px 40px;
 }
@@ -53,9 +63,19 @@ section {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
+section.auth {
+    max-width: 380px;
+    margin: 0 auto;
+}
+
 h2 {
     margin: 0 0 16px;
     font-size: 20px;
+}
+
+h3 {
+    margin: 20px 0 12px;
+    font-size: 16px;
 }
 
 /* заголовок слева, фильтр справа */
@@ -115,13 +135,26 @@ li:hover {
 
 .empty {
     color: var(--muted);
+    justify-content: center;
     text-align: center;
 }
 
-/* форма: поля в две колонки, кнопки на всю ширину */
-form {
+.error {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: var(--danger);
+}
+
+/* формы: поля в две колонки или в одну колонку */
+form.grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+form.column {
+    display: flex;
+    flex-direction: column;
     gap: 12px;
 }
 
@@ -135,6 +168,8 @@ input, select {
     padding: 10px 12px;
     font-size: 14px;
     font-family: inherit;
+    color: inherit;
+    background: white;
     border: 1px solid #d5e0e3;
     border-radius: 10px;
 }
@@ -181,9 +216,23 @@ button.delete:hover {
     background: #fbd5cf;
 }
 
-/* на узком экране (телефон) форма в одну колонку */
+/* кнопка, которая выглядит как ссылка */
+button.link {
+    padding: 0;
+    background: none;
+    color: var(--main);
+    text-decoration: underline;
+}
+
+.switch {
+    margin: 16px 0 0;
+    text-align: center;
+    color: var(--muted);
+}
+
+/* на узком экране (телефон) формы в одну колонку */
 @media (max-width: 500px) {
-    form {
+    form.grid {
         grid-template-columns: 1fr;
     }
 

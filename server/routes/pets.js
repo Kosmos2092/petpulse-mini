@@ -1,8 +1,11 @@
 const express = require("express");
 const petsController = require("../controllers/petsController");
+const checkAuth = require("../middleware/checkAuth");
 
-// Здесь только адреса: какой запрос какой функцией контроллера обрабатывается
 const petsRouter = express.Router();
+
+// все запросы к питомцам — только для вошедших пользователей
+petsRouter.use(checkAuth);
 
 petsRouter.get("/", petsController.getAll);
 petsRouter.get("/:id", petsController.getOne);

@@ -1,29 +1,44 @@
 const express = require("express");
-const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const { initDb } = require("./db/db");
+const authRouter = require("./routes/auth");
 const petsRouter = require("./routes/pets");
 const vetsRouter = require("./routes/vets");
+const appointmentsRouter = require("./routes/appointments");
 
 const app = express();
 
-// чтобы тело POST/PUT-запроса в формате JSON превращалось в объект req.body
+// чтобы тело запроса в формате JSON превращалось в объект req.body
 app.use(express.json());
 
-// разрешаем запросы со страницы клиента: она открыта с другого адреса, и без этого браузер их заблокирует
-app.use(cors());
+// чтобы cookie из запроса были доступны в req.cookies (там лежит токен входа)
+app.use(cookieParser());
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
     res.json({ message: "PetPulse mini API работает" });
 });
 
-app.use("/pets", petsRouter);
-app.use("/vets", vetsRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/pets", petsRouter);
+app.use("/api/vets", vetsRouter);
+app.use("/api/appointments", appointmentsRouter);
 
 // сюда попадают запросы на адреса, которых нет выше
 app.use((req, res) => {
     res.status(404).json({ message: "Такого адреса нет" });
 });
 
+// сюда попадают ошибки, возникшие в обработчиках (например, сломанный JSON в запросе)
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(err.status || 500).json({ message: "Ошибка на сервере" });
+});
+
 const port = process.env.PORT || 3001;
-app.listen(port, () => {
-    console.log(`Сервер запущен: http://localhost:${port}`);
+
+// сначала подключаемся к базе, потом запускаем сервер
+initDb().then(() => {
+    app.listen(port, () => {
+        console.log(`Сервер запущен: http://localhost:${port}`);
+    });
 });
