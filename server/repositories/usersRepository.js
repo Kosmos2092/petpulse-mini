@@ -14,4 +14,17 @@ module.exports = {
 
     // без пароля — это отдаём клиенту
     findById: async (id) => await getDb().get("SELECT id, login, role FROM users WHERE id = ?", id),
+
+    // все пользователи и сколько у каждого питомцев (для администратора)
+    findAll: async () =>
+        await getDb().all(`
+            SELECT users.id, users.login, users.role, COUNT(pets.id) AS petsCount
+            FROM users
+            LEFT JOIN pets ON pets.ownerId = users.id
+            GROUP BY users.id
+            ORDER BY users.id
+        `),
+
+    // питомцы, записи и токены пользователя удалятся сами (ON DELETE CASCADE)
+    remove: async (id) => await getDb().run("DELETE FROM users WHERE id = ?", id),
 };

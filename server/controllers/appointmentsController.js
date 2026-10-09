@@ -2,9 +2,15 @@ const appointmentsRepository = require("../repositories/appointmentsRepository")
 const petsRepository = require("../repositories/petsRepository");
 const vetsRepository = require("../repositories/vetsRepository");
 
-// GET /api/appointments — мои записи к врачу
+// Владелец видит и отменяет только записи своих питомцев, администратор — все.
+
+// GET /api/appointments — владельцу его записи, администратору все
 const getAll = async (req, res) => {
-    res.json(await appointmentsRepository.findAllByOwner(req.userId));
+    if (req.user.role === "admin") {
+        return res.json(await appointmentsRepository.findAll());
+    }
+
+    res.json(await appointmentsRepository.findAllByOwner(req.user.id));
 };
 
 // POST /api/appointments — записать питомца к врачу
@@ -20,7 +26,8 @@ const create = async (req, res) => {
         return res.status(400).json({ message: "Нельзя записаться на прошедшее время" });
     }
 
-    if (!(await petsRepository.findById(petId, req.userId))) {
+    const pet = await petsRepository.findById(petId);
+    if (!pet || (req.user.role !== "admin" && pet.ownerId !== req.user.id)) {
         return res.status(404).json({ message: "Питомец не найден" });
     }
 
@@ -33,13 +40,13 @@ const create = async (req, res) => {
     }
 
     const id = await appointmentsRepository.create(petId, vetId, date);
-    res.status(201).json(await appointmentsRepository.findById(id, req.userId));
+    res.status(201).json(await appointmentsRepository.findById(id));
 };
 
 // DELETE /api/appointments/:id — отменить запись
 const remove = async (req, res) => {
-    const appointment = await appointmentsRepository.findById(Number(req.params.id), req.userId);
-    if (!appointment) {
+    const appointment = await appointmentsRepository.findById(Number(req.params.id));
+    if (!appointment || (req.user.role !== "admin" && appointment.ownerId !== req.user.id)) {
         return res.status(404).json({ message: "Запись не найдена" });
     }
 

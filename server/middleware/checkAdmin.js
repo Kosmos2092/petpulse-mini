@@ -1,10 +1,7 @@
-const usersRepository = require("../repositories/usersRepository");
-
-// Пропускает дальше только администратора. Ставится ПОСЛЕ checkAuth — тот уже положил req.userId.
+// Пропускает дальше только администратора. Ставится ПОСЛЕ checkAuth — тот уже положил req.user.
 // 403 значит «ты вошёл, но тебе сюда нельзя» (в отличие от 401 — «ты не вошёл»).
-const checkAdmin = async (req, res, next) => {
-    const user = await usersRepository.findById(req.userId);
-    if (user.role !== "admin") {
+const checkAdmin = (req, res, next) => {
+    if (req.user.role !== "admin") {
         return res.status(403).json({ message: "Доступно только администратору" });
     }
 

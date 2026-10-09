@@ -19,6 +19,14 @@ module.exports = {
         return await getDb().get("SELECT * FROM vets WHERE id = ?", result.lastID);
     },
 
+    update: async (id, name, specialization, price) => {
+        await getDb().run(
+            "UPDATE vets SET name = ?, specialization = ?, price = ? WHERE id = ?",
+            name, specialization, price, id
+        );
+        return await getDb().get("SELECT * FROM vets WHERE id = ?", id);
+    },
+
     // записи к этому врачу удалятся сами (ON DELETE CASCADE в таблице appointments)
     remove: async (id) => await getDb().run("DELETE FROM vets WHERE id = ?", id),
 };

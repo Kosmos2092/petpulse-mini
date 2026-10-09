@@ -5,6 +5,7 @@ const authRouter = require("./routes/auth");
 const petsRouter = require("./routes/pets");
 const vetsRouter = require("./routes/vets");
 const appointmentsRouter = require("./routes/appointments");
+const usersRouter = require("./routes/users");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/pets", petsRouter);
 app.use("/api/vets", vetsRouter);
 app.use("/api/appointments", appointmentsRouter);
+app.use("/api/users", usersRouter);
 
 // сюда попадают запросы на адреса, которых нет выше
 app.use((req, res) => {

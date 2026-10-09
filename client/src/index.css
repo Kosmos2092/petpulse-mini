@@ -54,6 +54,39 @@ main {
     padding: 0 16px 40px;
 }
 
+/* вкладки: белая полоска с кнопками, выбранная — цветная */
+.tabs {
+    display: flex;
+    gap: 6px;
+    padding: 6px;
+    margin-bottom: 20px;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    overflow-x: auto;
+}
+
+.tabs button {
+    flex: 1;
+    padding: 10px 14px;
+    background: none;
+    white-space: nowrap;
+}
+
+.tabs button.active {
+    background: var(--main);
+    color: white;
+}
+
+/* маленькая плашка: владелец питомца, роль и т. п. */
+.badge {
+    font-size: 13px;
+    color: var(--muted);
+    background: var(--bg);
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
 /* белые карточки с тенью */
 section {
     background: white;

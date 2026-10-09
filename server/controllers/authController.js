@@ -58,7 +58,7 @@ const logout = async (req, res) => {
 
 // GET /api/auth/me — кто сейчас вошёл
 const me = async (req, res) => {
-    res.json(await usersRepository.findById(req.userId));
+    res.json(req.user);
 };
 
 module.exports = { register, login, logout, me };

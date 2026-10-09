@@ -9,8 +9,9 @@ const vetsRouter = express.Router();
 vetsRouter.get("/", vetsController.getAll);
 vetsRouter.get("/:id", vetsController.getOne);
 
-// добавлять и удалять врачей — только администратор: сначала checkAuth (вошёл?), потом checkAdmin (админ?)
+// добавлять, менять и удалять врачей — только администратор: сначала checkAuth (вошёл?), потом checkAdmin (админ?)
 vetsRouter.post("/", checkAuth, checkAdmin, vetsController.create);
+vetsRouter.put("/:id", checkAuth, checkAdmin, vetsController.update);
 vetsRouter.delete("/:id", checkAuth, checkAdmin, vetsController.remove);
 
 module.exports = vetsRouter;

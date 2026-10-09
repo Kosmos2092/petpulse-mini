@@ -128,8 +128,30 @@ Content-Type: application/json
     "price": 2000
 }
 
+### Изменить врача
+PUT {{baseUrl}}/vets/5
+Content-Type: application/json
+
+{
+    "name": "Орлова Мария Ивановна",
+    "specialization": "офтальмолог",
+    "price": 2200
+}
+
 ### Удалить врача
 DELETE {{baseUrl}}/vets/5
+
+### Все питомцы всех пользователей
+GET {{baseUrl}}/pets
+
+### Все записи к врачу
+GET {{baseUrl}}/appointments
+
+### Все пользователи
+GET {{baseUrl}}/users
+
+### Удалить пользователя (вместе с его питомцами и записями)
+DELETE {{baseUrl}}/users/2
 
 ### Выход
 POST {{baseUrl}}/auth/logout
