@@ -1,0 +1,58 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f5;
+}
+
+/* вся страница — колонка шириной до 600px по центру */
+main {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+/* белые карточки-блоки */
+section {
+    background: white;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+ul {
+    padding: 0;
+    list-style: none;
+}
+
+/* строка списка: текст слева, кнопки справа */
+li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+li span {
+    flex: 1;
+}
+
+/* поля формы друг под другом */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+input, select, button {
+    padding: 8px;
+    font-size: 14px;
+}
+
+button {
+    cursor: pointer;
+}

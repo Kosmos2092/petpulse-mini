@@ -1,0 +1,62 @@
+# Готовые запросы для проверки сервера.
+# Открыть в VS Code с расширением «REST Client» и нажимать «Send Request» над каждым запросом.
+
+@baseUrl = http://localhost:3001
+
+### ---------- Врачи ----------
+
+### Все врачи
+GET {{baseUrl}}/vets
+
+### Только терапевты
+GET {{baseUrl}}/vets?specialization=терапевт
+
+### Один врач
+GET {{baseUrl}}/vets/2
+
+### Врача с таким id нет (ожидаем 404)
+GET {{baseUrl}}/vets/99
+
+### ---------- Питомцы ----------
+
+### Все питомцы
+GET {{baseUrl}}/pets
+
+### Один питомец
+GET {{baseUrl}}/pets/1
+
+### Добавить питомца
+POST {{baseUrl}}/pets
+Content-Type: application/json
+
+{
+    "name": "Кеша",
+    "species": "попугай",
+    "breed": "волнистый",
+    "birthDate": "2024-02-10"
+}
+
+### Добавить питомца без обязательных полей (ожидаем 400)
+POST {{baseUrl}}/pets
+Content-Type: application/json
+
+{
+    "name": "Кеша"
+}
+
+### Изменить питомца
+PUT {{baseUrl}}/pets/1
+Content-Type: application/json
+
+{
+    "name": "Барсик",
+    "species": "кошка",
+    "breed": "британская короткошёрстная",
+    "birthDate": "2022-05-14"
+}
+
+### Удалить питомца
+DELETE {{baseUrl}}/pets/2
+
+### Питомца уже нет (ожидаем 404)
+GET {{baseUrl}}/pets/2
