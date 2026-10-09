@@ -1,58 +1,193 @@
+/* цвета в одном месте, ниже используются через var(--имя) */
+:root {
+    --main: #2a9d8f;
+    --main-dark: #21867a;
+    --danger: #e76f51;
+    --bg: #f1f6f5;
+    --text: #264653;
+    --muted: #6b7f86;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #eef2f5;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
 }
 
-/* вся страница — колонка шириной до 600px по центру */
-main {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-h1 {
+/* шапка с градиентом */
+header {
+    background: linear-gradient(135deg, #2a9d8f, #4cc9b0);
+    color: white;
     text-align: center;
+    padding: 40px 20px 70px;
 }
 
-/* белые карточки-блоки */
+header h1 {
+    margin: 0;
+    font-size: 36px;
+}
+
+header p {
+    margin: 8px 0 0;
+    opacity: 0.9;
+}
+
+/* колонка по центру; отрицательный отступ сверху «наезжает» на шапку */
+main {
+    max-width: 640px;
+    margin: -40px auto 0;
+    padding: 0 16px 40px;
+}
+
+/* белые карточки с тенью */
 section {
     background: white;
-    padding: 16px 20px;
+    padding: 20px 24px;
     margin-bottom: 20px;
-    border-radius: 8px;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+h2 {
+    margin: 0 0 16px;
+    font-size: 20px;
+}
+
+/* заголовок слева, фильтр справа */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.section-header h2 {
+    margin: 0;
 }
 
 ul {
+    margin: 0;
     padding: 0;
     list-style: none;
 }
 
-/* строка списка: текст слева, кнопки справа */
+/* строка списка: иконка, текст, кнопки — в ряд */
 li {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
 }
 
-li span {
+li:hover {
+    background: var(--bg);
+}
+
+.emoji {
+    font-size: 28px;
+}
+
+.info {
     flex: 1;
-}
-
-/* поля формы друг под другом */
-form {
     display: flex;
     flex-direction: column;
+}
+
+.info small {
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+.price {
+    font-weight: bold;
+    color: var(--main);
+    background: #e6f4f2;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.empty {
+    color: var(--muted);
+    text-align: center;
+}
+
+/* форма: поля в две колонки, кнопки на всю ширину */
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.form-buttons {
+    grid-column: 1 / -1;
+    display: flex;
     gap: 8px;
 }
 
-input, select, button {
-    padding: 8px;
+input, select {
+    padding: 10px 12px;
     font-size: 14px;
+    font-family: inherit;
+    border: 1px solid #d5e0e3;
+    border-radius: 10px;
+}
+
+/* подсветка поля, в котором стоит курсор */
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--main);
+    box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.2);
 }
 
 button {
+    padding: 8px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    border: none;
+    border-radius: 10px;
+    background: #e9eff1;
+    color: var(--text);
     cursor: pointer;
+}
+
+button:hover {
+    background: #dbe4e7;
+}
+
+button.primary {
+    flex: 1;
+    padding: 10px;
+    background: var(--main);
+    color: white;
+}
+
+button.primary:hover {
+    background: var(--main-dark);
+}
+
+button.delete {
+    background: #fdecea;
+    color: var(--danger);
+}
+
+button.delete:hover {
+    background: #fbd5cf;
+}
+
+/* на узком экране (телефон) форма в одну колонку */
+@media (max-width: 500px) {
+    form {
+        grid-template-columns: 1fr;
+    }
+
+    li {
+        flex-wrap: wrap;
+    }
 }
